@@ -1,0 +1,46 @@
+/*!
+ * Boohttp://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.csststrap v3.3.5 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ *//*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+ @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css");
+
+ 	html{
+ 	font-family:sans-serif;
+ 	-webkit-text-size-adjust:100%;
+ 	-ms-text-size-adjust:100%}
+
+ 	.alignphotoright{float:right;}
+ 	
+ 	.myheader {background-color: #A7DBD8; padding: 20px;}
+ 	.laranja{background-color:#FA6900; min-height: 5px;}
+ 	.containerwrap {background-color:white;}
+ 	.testemonials h1 {text-align: center;}
+
+ 	.colortext{text-shadow: 2px 4px #FA6900; color:#69D2E7;}
+ 	.car{background-image: url('img/car.jpg'); 
+
+ 		background-position: top; 
+ 		background-size: cover;
+ 		background-repeat: no-repeat;
+ 		text-align: center;
+ 		opacity:0.65;
+		-moz-opacity: 0.65;
+		filter: alpha(opacity=65);
+ 		}
+ 	.car:hover {
+ 		opacity:1;
+ 	}
+ 	.firstsection{
+ 		padding-bottom: 25px;
+ 		
+ 	}
+ 	.cleanopacity{
+ 		opacity: 1;
+ 	}	
+
+
+ 	body{margin:0; background-color: #E0E4CC !important;font-family: Helvetica,Arial,sans-serif !important;font-size:14px;line-height:1.42857143;color:#444444;background-color:#fff}
+ 	
+ 	h1 {font-family: "Oswald" !important}
+ 	h3 {font-family: "Oswald" !important}
