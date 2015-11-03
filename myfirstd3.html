@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+body { font: 12px Arial;}
+
+path { 
+ 
+    stroke-width: 2;
+    fill: none;
+}
+
+
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+      stroke-width: 0;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.axis.y g line {
+    stroke: #AAA;
+    stroke-width: 1px;
+}
+
+</style>
+<body>
+
+<!-- load the d3.js library -->    
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 1000 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+// Set the ranges
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(12);
+
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(10)
+
+//prepare the other axis
+function make_x_axis() {        
+    return d3.svg.axis()
+        .scale(x)
+         .orient("bottom")
+         .ticks(10)
+}
+
+function make_y_axis() {        
+    return d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(12)
+}
+
+
+// Define the line
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.feedback); });
+
+ // Define the line
+var valueline2 = d3.svg.line()
+    .x(function(d2) { return x(d2.date); })
+    .y(function(d2) { return y(d2.feedback); });
+    
+// Adds the svg canvas
+var svg = d3.select("body")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+              "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+var dataHappy = [
+{date:"1-Jan-12",feedback:11},
+{date:"10-Jan-12",feedback:11},
+{date:"15-Jan-12",feedback:12},
+{date:"26-Jan-12",feedback:4},
+{date:"23-Feb-12",feedback:14},
+{date:"24-Apr-12",feedback:8},
+{date:"25-Apr-12",feedback:12},
+{date:"19-May-12",feedback:13},
+{date:"20-May-12",feedback:5},
+{date:"22-May-12",feedback:16},
+{date:"11-Jun-12",feedback:4},
+{date:"12-Jun-12",feedback:15},
+{date:"13-Jun-12",feedback:15},
+{date:"14-Jul-12",feedback:5},
+{date:"17-Jul-12",feedback:16},
+{date:"20-Jul-12",feedback:7},
+{date:"29-Jul-12",feedback:13},
+{date:"4-Aug-12",feedback:4},
+{date:"5-Aug-12",feedback:2},
+{date:"2-Sep-12",feedback:0},
+{date:"3-Sep-12",feedback:11},
+{date:"29-Oct-12",feedback:5},
+{date:"30-Oct-12",feedback:10},
+{date:"27-Oct-12",feedback:2},
+{date:"28-Nov-12",feedback:0},
+{date:"30-Dec-12",feedback:1}
+];
+
+var data = [
+{date:"1-Jan-12",feedback:58},
+{date:"10-Jan-12",feedback:53},
+{date:"15-Jan-12",feedback:67},
+{date:"26-Jan-12",feedback:89},
+{date:"23-Feb-12",feedback:99},
+{date:"24-Apr-12",feedback:00},
+{date:"25-Apr-12",feedback:120},
+{date:"19-May-12",feedback:30},
+{date:"20-May-12",feedback:45},
+{date:"22-May-12",feedback:34},
+{date:"11-Jun-12",feedback:54},
+{date:"12-Jun-12",feedback:18},
+{date:"13-Jun-12",feedback:20},
+{date:"14-Jul-12",feedback:22},
+{date:"17-Jul-12",feedback:26},
+{date:"20-Jul-12",feedback:62},
+{date:"29-Jul-12",feedback:500},
+{date:"4-Aug-12",feedback:63},
+{date:"5-Aug-12",feedback:32},
+{date:"2-Sep-12",feedback:29},
+{date:"3-Sep-12",feedback:18},
+{date:"29-Oct-12",feedback:59},
+{date:"30-Oct-12",feedback:28},
+{date:"27-Oct-12",feedback:21},
+{date:"28-Nov-12",feedback:36},
+{date:"30-Dec-12",feedback:40}
+];
+
+
+//d3.csv("data.csv", function(error, data) {
+
+
+   data.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.feedback = +d.feedback;
+    });
+
+   dataHappy.forEach(function(d) {
+        d.date = parseDate(d.date);
+        d.feedback = +d.feedback;
+    });
+
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.date; }));
+    y.domain([0, d3.max(data, function(d) { return d.feedback; })]);
+
+
+
+    //add grid behind
+   svg.append("g")         
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .call(make_x_axis()
+            .tickSize(-height, 0, 0)
+            .tickFormat("")
+        )
+
+    svg.append("g")         
+        .attr("class", "grid")
+        .call(make_y_axis()
+            .tickSize(-width, 0, 0)
+            .tickFormat("")
+        )
+
+    
+    var lineGen = d3.svg.line()
+    .x(function(d) {
+        return x(d.date);
+    })
+    .y(function(d) {
+        return y(d.feedback);
+    })
+
+
+    .interpolate("basis");
+    svg.append('svg:path')
+
+    .attr("id", "p1")
+    .attr('d', 0)
+    .attr('stroke', 'blue')
+    .attr('stroke-width', 2)
+    .attr('fill', 'none')
+    .attr('d', lineGen(data));
+    
+    
+
+    svg.append('svg:path')
+
+    .attr("id", "p2")
+    .attr('stroke', 'red')
+    .attr('stroke-width', 2)
+    .attr('fill', 'none')
+     .attr('d', lineGen(dataHappy));
+    
+    
+
+
+   // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    //release day
+    
+    
+    svg.append("line")
+    .attr("stroke", "orange")
+    .attr("y1", y(0))
+    .attr("y2", y(width))
+    .attr("x1", 256)
+    .attr("x2", 256);
+    
+
+//});
+
+</script>
+</body>
